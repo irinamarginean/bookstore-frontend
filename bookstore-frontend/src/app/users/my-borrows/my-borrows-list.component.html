@@ -1,0 +1,40 @@
+<div class="container-fluid" style="margin: 30px; text-align: center;">
+  <h1>Borrowed books list</h1>
+  <p>The list of pmy borrowed books</p>
+</div>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Book</th>
+    <th scope="col">Author</th>
+    <th scope="col">Genre</th>
+    <th scope="col"></th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let borrow of borrows; index as i">
+    <th scope="row">{{ i + 1 }}</th>
+    <td>
+      <strong> {{ borrow.book?.name }} </strong>
+    </td>
+    <td> {{ borrow.book?.author }} </td>
+    <td> {{ borrow.book?.bookGenre }} </td>
+    <td> 
+      Borrowed on {{ borrow.borrowDate | date }}
+    </td>
+    <td> 
+      <span *ngIf="borrow.returnDate">
+        Returned on {{ borrow.returnDate | date }}
+      </span>
+      <span *ngIf="!borrow.returnDate">
+        <button class="btn btn btn-outline-warning my-2 my-sm-0" (click)="returnBook(borrow.book)">
+          Return
+        </button>
+      </span>
+    </td>
+  </tr>
+  </tbody>
+</table>

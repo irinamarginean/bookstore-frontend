@@ -1,0 +1,51 @@
+<div class="container-fluid" style="margin: 30px; text-align: center;">
+  <h1>Books list</h1>
+  <p>The list of all books in the library</p>
+</div>
+
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Name</th>
+    <th scope="col">Author</th>
+    <th scope="col">Genre</th>
+    <th scope="col">Stock</th>
+    <th scope="col"></th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let book of allBooks; index as i">
+    <th scope="row">{{ i + 1 }}</th>
+    <td>
+      <strong> {{ book.book?.name }} </strong>
+    </td>
+    <td> {{ book.book?.author }} </td>
+    <td> {{ book.book?.genre }} </td>
+    <td> {{ book.book?.booksInStock }} </td>
+    <td *ngIf="isUserBasic()"> 
+      <span *ngIf="book.wasBorrowed && !book.returnDate">
+        Book was borrowed on {{book.borrowDate | date}} and not yet returned
+      </span>
+      <span *ngIf="book.wasBorrowed && book.returnDate">
+        Book was borrowed on {{book.borrowDate | date}} and returned on {{book.returnDate | date}}
+      </span>
+      <button *ngIf="!book.borrowDate" class="btn btn-outline-primary my-2 my-sm-0" (click)="borrowBook(book.book)">
+        Borrow
+      </button>
+    </td>
+    <td *ngIf="isUserAdmin()"> 
+      <button class="btn btn-outline-success my-2 my-sm-0" [routerLink]="['/books/edit/' + book.book?.name]">
+        Edit
+      </button>
+    </td>
+    <td *ngIf="isUserAdmin()"> 
+      <button class="btn btn-outline-danger my-2 my-sm-0" (click)="removeBook(book.book?.name)">
+        Remove
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
